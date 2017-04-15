@@ -36,18 +36,16 @@ function bigSwitch(){
 		
 	}
 };
-//capture user input, and inform user of what to type in.
+//captures input, and inform user of what to type in.
 console.log("Type my-tweets , spotify-this-song , movie-this , or do-what-it-says to get started!");
-//process[2] choses action, process[3] as search parameter for spotify or movie.
 var userCommand = process.argv[2];
 var secondCommand = process.argv[3];
-//process multiple words. Triggers if user types anything more than the above console logged options and first parameter.
 	for(i=4; i<process.argv.length; i++){
 	    secondCommand += '+' + process.argv[i];
 	}
 
 function bigSwitch(){
-	//action statement, switch statement to declare what action to execute.
+	//action statement, switch statement to declare execution
 	switch(userCommand){
 
 		case 'my-tweets':
@@ -71,7 +69,6 @@ function bigSwitch(){
 //functions/options
 function fetchTweets(){
 	console.log("Tweets headed your way!");
-	//new variable for instance of twitter, load keys from imported keys.js
 	var client = new twitter({
 		consumer_key: keys.twitterKeys.consumer_key,
 		consumer_secret: keys.twitterKeys.consumer_secret,
@@ -79,13 +76,11 @@ function fetchTweets(){
 		access_token_secret: keys.twitterKeys.access_token_secret
 	});
 
-	//parameters for twitter function.
+	
 	var parameters = {
 		screen_name: 'multishifties',
 		count: 20
 	};
-
-	//call the get method on our client variable twitter instance
 	client.get('statuses/user_timeline', parameters, function(error, tweets, response){
 		if (!error) {
 	        for (i=0; i<tweets.length; i++) {
@@ -95,33 +90,29 @@ function fetchTweets(){
 	        }
 	    };
 	});
-};//end fetchTweets;
+};
 
 function spotifyMe(){
 	console.log("Music for DAYS!");
-
-	//variable for search term, test if defined.
-
 	var searchTrack;
 	if(secondCommand === undefined){
 		searchTrack = "What's My Age Again?";
 	}else{
 		searchTrack = secondCommand;
 	}
-	//launch spotify search
+	
 	spotify.search({type:'track', query:searchTrack}, function(err,data){
 	    if(err){
 	        console.log('Error occurred: ' + err);
 	        return;
 	    }else{
-	        //tried searching for release year! Spotify doesn't return this!
 	  		console.log("Artist: " + data.tracks.items[0].artists[0].name);
 	        console.log("Song: " + data.tracks.items[0].name);
 	        console.log("Album: " + data.tracks.items[0].album.name);
 	        console.log("Preview Here: " + data.tracks.items[0].preview_url);
 	    }
 	});
-};//end spotifyMe
+};
 
 function aMovieForMe(){
 	console.log("Netflix and Chill?");
@@ -148,7 +139,7 @@ function aMovieForMe(){
 	        console.log("Rotten Tomatoes URL: " + JSON.parse(body)["tomatoURL"]);
 	    }
     });
-};//end aMovieForMe
+};
 
 function followTheTextbook(){
 	console.log("Looking at random.txt now");
@@ -161,23 +152,21 @@ function followTheTextbook(){
      	var dataArr = data.split(',');
         userCommand = dataArr[0];
         secondCommand = dataArr[1];
-        //if multi-word search term, add.
         for(i=2; i<dataArr.length; i++){
             secondCommand = secondCommand + "+" + dataArr[i];
         };
-        //run action
 		bigSwitch
 	();
 		
-    	};//end else
+    	};
 
-    });//end readfile
+    });
 
-};//end followTheTextbook
+};
 
 bigSwitch();
 {
-	//switches statement to declare what action to execute.
+	// The switch
 	switch(userCommand){
 
 		case 'my-tweets':
@@ -199,7 +188,6 @@ bigSwitch();
 	}
 };
 
-//functions/options
 function fetchTweets(){
 	console.log("Here are your Tweets!");
 	var client = new twitter({
@@ -265,7 +253,6 @@ function myMovies(){
 	        console.log("Year: " + JSON.parse(body)["Year"]);
 	        console.log("IMDB Rating: " + JSON.parse(body)["imdbRating"]);
 	        console.log("Country: " + JSON.parse(body)["Country"]);
-	        console.log("Language: " + JSON.parse(body)["Language"]);
 	        console.log("Plot: " + JSON.parse(body)["Plot"]);
 	        console.log("Actors: " + JSON.parse(body)["Actors"]);
 	        console.log("Rotten Tomatoes Rating: " + JSON.parse(body)["tomatoRating"]);
